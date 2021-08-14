@@ -6,5 +6,6 @@
 struct Core core;
 
 void init();
+void cycle();
 
 #endif

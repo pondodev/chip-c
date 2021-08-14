@@ -19,7 +19,6 @@ struct Core {
     uint8_t sound_timer;
     uint8_t keypad[16];
     uint32_t video[VIDEO_SIZE];
-    uint16_t opcode;
 };
 
 #define FONT_SET_SIZE 80
