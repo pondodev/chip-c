@@ -1,5 +1,5 @@
 #ifndef INSTRUCTIONS_H
-#define INSTRUCTIONS_H
+#define INSTRUCTIONS_H 1
 
 #include <stdint.h>
 

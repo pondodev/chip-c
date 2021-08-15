@@ -7,7 +7,7 @@ fullclean: clean build run
 fullmemleaktest: clean build memleaktest
 
 build:
-		gcc -o $(executable_name) *.c
+		gcc -o $(executable_name) *.c -Wall
 
 run:
 		./$(executable_name) trip8.ch8

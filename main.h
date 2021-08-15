@@ -1,8 +1,7 @@
 #ifndef MAIN_H
-#define MAIN_H
+#define MAIN_H 1
 
 #include "core.h"
-#include "instructions.h"
 
 int error_code = 0;  // set to non-zero value when something goes wrong
 /*
@@ -20,8 +19,6 @@ int error_code = 0;  // set to non-zero value when something goes wrong
 
 struct Core core;
 
-void init(char* rom_path);
-void cycle();
-uint16_t read_opcode();
+void handle_error_code();
 
 #endif
