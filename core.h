@@ -7,10 +7,11 @@
 #define SCREEN_HEIGHT 32
 #define VIDEO_SIZE SCREEN_WIDTH * SCREEN_HEIGHT + 1
 #define START_ADDRESS 0x200
+#define MEMORY_SIZE 4096
 
 struct Core {
     uint8_t registers[16];
-    uint8_t memory[4096];
+    uint8_t memory[MEMORY_SIZE];
     uint16_t stack[16];
     uint16_t index;
     uint16_t pc;
