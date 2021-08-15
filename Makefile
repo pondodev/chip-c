@@ -10,7 +10,7 @@ build:
 		gcc -o $(executable_name) *.c
 
 run:
-		./$(executable_name)
+		./$(executable_name) trip8.ch8
 
 clean:
 		rm -f ./$(executable_name)

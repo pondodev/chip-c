@@ -167,8 +167,8 @@ void process_op_9xxx(uint16_t opcode) {
 void process_op_exxx(uint16_t opcode) {
     uint8_t nibbles[4];
     get_nibbles(opcode, nibbles);
-    uint8_t byte = nibbles[2];
-    byte |= nibbles[3] >> 4;
+    uint8_t byte = nibbles[3];
+    byte |= nibbles[2] << 4;
 
     switch (byte) {
         case 0x9E:
@@ -188,15 +188,17 @@ void process_op_exxx(uint16_t opcode) {
 void process_op_fxxx(uint16_t opcode) {
     uint8_t nibbles[4];
     get_nibbles(opcode, nibbles);
-    uint8_t byte = nibbles[2];
-    byte |= nibbles[3] >> 4;
+    uint8_t byte = nibbles[3];
+    byte |= nibbles[2] << 4;
+
+    printf("0x%02x ", byte);
 
     switch (byte) {
         case 0x07:
             op_fx07(opcode);
             break;
 
-        case 0x0a:
+        case 0x0A:
             op_fx0a(opcode);
             break;
 
@@ -208,7 +210,7 @@ void process_op_fxxx(uint16_t opcode) {
             op_fx18(opcode);
             break;
 
-        case 0x1e:
+        case 0x1E:
             op_fx1e(opcode);
             break;
 
