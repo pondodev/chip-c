@@ -10,7 +10,6 @@ int main(int argc, char** argv) {
     }
 
     while (error_code == 0) {
-        printf("%04x: ", core.pc);
         error_code = cycle(&core);
     }
 
