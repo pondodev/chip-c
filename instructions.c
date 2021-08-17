@@ -294,35 +294,75 @@ void op_5xy0(uint16_t opcode, struct Core* core_ptr) {
 }
 
 void op_6xkk(uint16_t opcode, struct Core* core_ptr) {
-    printf("ld   <Vx>, <byte>\n");
+    uint8_t nibbles[4];
+    get_nibbles(opcode, nibbles);
+    uint8_t byte = (nibbles[2] << 4) | nibbles[3];
+    core_ptr->registers[nibbles[1]] = byte;
 }
 
 void op_7xkk(uint16_t opcode, struct Core* core_ptr) {
-    printf("add  <Vx>, <byte>\n");
+    uint8_t nibbles[4];
+    get_nibbles(opcode, nibbles);
+    uint8_t byte = (nibbles[2] << 4) | nibbles[3];
+    core_ptr->registers[nibbles[1]] += byte;
 }
 
 void op_8xy0(uint16_t opcode, struct Core* core_ptr) {
-    printf("ld   <Vx>, <Vy>\n");
+    uint8_t nibbles[4];
+    get_nibbles(opcode, nibbles);
+
+    core_ptr->registers[1] = core_ptr->registers[2];
 }
 
 void op_8xy1(uint16_t opcode, struct Core* core_ptr) {
-    printf("or   <Vx>, <Vy>\n");
+    uint8_t nibbles[4];
+    get_nibbles(opcode, nibbles);
+
+    core_ptr->registers[1] |= core_ptr->registers[2];
 }
 
 void op_8xy2(uint16_t opcode, struct Core* core_ptr) {
-    printf("and  <Vx>, <Vy>\n");
+    uint8_t nibbles[4];
+    get_nibbles(opcode, nibbles);
+
+    core_ptr->registers[1] &= core_ptr->registers[2];
 }
 
 void op_8xy3(uint16_t opcode, struct Core* core_ptr) {
-    printf("xor  <Vx>, <Vy>\n");
+    uint8_t nibbles[4];
+    get_nibbles(opcode, nibbles);
+
+    core_ptr->registers[1] ^= core_ptr->registers[2];
 }
 
 void op_8xy4(uint16_t opcode, struct Core* core_ptr) {
-    printf("add  <Vx>, <Vy>\n");
+    uint8_t nibbles[4];
+    get_nibbles(opcode, nibbles);
+
+    uint16_t res = core_ptr->registers[1] + core_ptr->registers[2];
+    core_ptr->registers[1] = res & 0x00FF;
+
+    if (res > 0xFF) {
+        core_ptr->registers[0xF] = 0x1;
+    } else {
+        core_ptr->registers[0xF] = 0x0;
+    }
 }
 
 void op_8xy5(uint16_t opcode, struct Core* core_ptr) {
-    printf("sub  <Vx>, <Vy>\n");
+    uint8_t nibbles[4];
+    get_nibbles(opcode, nibbles);
+
+    uint8_t* vx = &(core_ptr->registers[nibbles[1]]);
+    uint8_t* vy = &(core_ptr->registers[nibbles[1]]);
+
+    if (*vx > *vy) {
+        core_ptr->registers[0xF] = 1;
+    } else {
+        core_ptr->registers[0xF] = 0;
+    }
+
+    *vx -= *vy;
 }
 
 void op_8xy6(uint16_t opcode, struct Core* core_ptr) {
