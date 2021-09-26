@@ -2,6 +2,7 @@
 #define INSTRUCTIONS_H 1
 
 #include <stdint.h>
+#include <stdlib.h>
 
 #include "core.h"
 
@@ -35,6 +36,7 @@ void op_8xy3(uint16_t opcode, struct Core* core_ptr); // xor  <Vx>, <Vy>
 void op_8xy4(uint16_t opcode, struct Core* core_ptr); // add  <Vx>, <Vy>
 void op_8xy5(uint16_t opcode, struct Core* core_ptr); // sub  <Vx>, <Vy>
 void op_8xy6(uint16_t opcode, struct Core* core_ptr); // shr  <Vx> (, <Vy>)
+void op_8xy7(uint16_t opcode, struct Core* core_ptr); // subn <Vx>, <Vy>
 void op_8xye(uint16_t opcode, struct Core* core_ptr); // shl  <Vx> (, <Vy>)
 void op_9xy0(uint16_t opcode, struct Core* core_ptr); // sne  <Vx>, <Vy>
 void op_annn(uint16_t opcode, struct Core* core_ptr); // ld   I, <addr>

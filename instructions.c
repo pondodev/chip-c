@@ -366,27 +366,71 @@ void op_8xy5(uint16_t opcode, struct Core* core_ptr) {
 }
 
 void op_8xy6(uint16_t opcode, struct Core* core_ptr) {
-    printf("shr  <Vx> (, <Vy>)\n");
+    uint8_t nibbles[4];
+    get_nibbles(opcode, nibbles);
+
+    uint8_t* vx = &(core_ptr->registers[nibbles[1]]);
+    if (*vx & 0b00000001) core_ptr->registers[0xF] = 1;
+    else core_ptr->registers[0xF] = 0;
+
+    *vx = *vx >> 1;
+}
+
+void op_8xy7(uint16_t opcode, struct Core* core_ptr) {
+    uint8_t nibbles[4];
+    get_nibbles(opcode, nibbles);
+
+    uint8_t* vx = &(core_ptr->registers[nibbles[1]]);
+    uint8_t* vy = &(core_ptr->registers[nibbles[1]]);
+
+    if (*vy > *vx) {
+        core_ptr->registers[0xF] = 1;
+    } else {
+        core_ptr->registers[0xF] = 0;
+    }
+
+    *vx -= *vy;
 }
 
 void op_8xye(uint16_t opcode, struct Core* core_ptr) {
-    printf("shl  <Vx> (, <Vy>)\n");
+    uint8_t nibbles[4];
+    get_nibbles(opcode, nibbles);
+
+    uint8_t* vx = &(core_ptr->registers[nibbles[1]]);
+    if (*vx & 0b10000000) core_ptr->registers[0xF] = 1;
+    else core_ptr->registers[0xF] = 0;
+
+    *vx = *vx << 1;
 }
 
 void op_9xy0(uint16_t opcode, struct Core* core_ptr) {
-    printf("sne  <Vx>, <Vy>\n");
+    uint8_t nibbles[4];
+    get_nibbles(opcode, nibbles);
+
+    uint8_t vx = core_ptr->registers[nibbles[1]];
+    uint8_t vy = core_ptr->registers[nibbles[1]];
+
+    if (vy != vx) core_ptr->pc += 2;
 }
 
 void op_annn(uint16_t opcode, struct Core* core_ptr) {
-    printf("ld   I, <addr>\n");
+    uint16_t addr = get_address(opcode);
+
+    core_ptr->index = core_ptr->memory[addr];
 }
 
 void op_bnnn(uint16_t opcode, struct Core* core_ptr) {
-    printf("jp   V0, <addr>\n");
+    uint16_t addr = get_address(opcode);
+    uint8_t v0 = core_ptr->registers[0];
+    core_ptr->pc = addr + v0;
 }
 
 void op_cxkk(uint16_t opcode, struct Core* core_ptr) {
-    printf("rnd  <Vx>, <byte>\n");
+    uint8_t num = rand() % 256;
+    uint8_t kk = opcode & 0x00FF;
+    uint8_t x = (opcode & 0x0F00) >> 8;
+
+    core_ptr->registers[x] = num & kk;
 }
 
 void op_dxyn(uint16_t opcode, struct Core* core_ptr) {
